@@ -4,7 +4,8 @@
   "description": "ImageClient",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/server.js"
+    "start": "node bin/server.js",
+    "start:prod": "NODE_ENV=production node bin/server.js"
   },
   "author": "Sergey Buklin",
   "license": "MIT",
