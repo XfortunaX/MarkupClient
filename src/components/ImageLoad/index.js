@@ -103,7 +103,8 @@ export default class ImageLoad extends Component {
 
     let form = document.getElementById('form-upload');
     let form_data = new FormData(form);
-    form_data.append('category', this.markup.getData().category);
+    console.log(this.state.markup.getData());
+    form_data.append('category', this.state.markup.getData().category);
     console.log(form_data);
     let req = new XMLHttpRequest();
     req.open('POST', 'http://localhost:8000/api/upload');
