@@ -4,8 +4,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import './styles.scss'
-import { API_URL } from '../../constants/index';
-import ImagesModel from '../../models/imagesModel';
+import { API_URL } from '../../constants/index'
+import ImagesModel from '../../models/imagesModel'
+import MarkupModel from '../../models/markupModel'
 
 export default class ImageLoad extends Component {
   constructor() {
@@ -14,7 +15,8 @@ export default class ImageLoad extends Component {
       numPicture: 0,
       k: 1,
       value: '',
-      images: new ImagesModel()
+      images: new ImagesModel(),
+      markup: new MarkupModel()
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
@@ -81,37 +83,45 @@ export default class ImageLoad extends Component {
       loadPicture
     )
   }
-  handleChange(e) {
-    let files = e.target.files;
-    this.state.images.drop();
-
-    let self = this;
-    for (let i = 0; i < files.length; i++) { //for multiple files
-      (function(file) {
-        let reader = new FileReader();
-        reader.onload = function() {
-          self.state.images.add(reader.result);
-        };
-        reader.readAsDataURL(file);
-      })(files[i]);
-    }
+  handleChange() {
+    // let files = e.target.files;
+    // this.state.images.drop();
+    //
+    // let self = this;
+    // for (let i = 0; i < files.length; i++) { //for multiple files
+    //   (function(file) {
+    //     let reader = new FileReader();
+    //     reader.onload = function() {
+    //       self.state.images.add(reader.result);
+    //     };
+    //     reader.readAsDataURL(file);
+    //   })(files[i]);
+    // }
   }
   handleSubmit(e) {
     e.preventDefault();
 
-    this.state.images.sendData()
-      .then(function (data) {
-        console.log(data);
-        // if (data === true) {
-        //
-        // }
-        // self.state.validationError = true;
-        // self.forceUpdate();
-      })
-      .catch(function () {
-        // self.state.validationError = true;
-        // self.forceUpdate();
-      })
+    let form = document.getElementById('form-upload');
+    let form_data = new FormData(form);
+    form_data.append('category', this.markup.getData().category);
+    console.log(form_data);
+    let req = new XMLHttpRequest();
+    req.open('POST', 'http://localhost:8000/api/upload');
+    req.send(form_data);
+
+    // this.state.images.sendData()
+    //   .then(function (data) {
+    //     console.log(data);
+    //     // if (data === true) {
+    //     //
+    //     // }
+    //     // self.state.validationError = true;
+    //     // self.forceUpdate();
+    //   })
+    //   .catch(function () {
+    //     // self.state.validationError = true;
+    //     // self.forceUpdate();
+    //   })
 
     // const self = this;
     // this.images.sendData()
