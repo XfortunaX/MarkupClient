@@ -4,6 +4,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import './styles.scss'
+import { API_URL } from '../../constants/index';
 
 export default class ImageLoad extends Component {
   constructor() {
@@ -86,6 +87,11 @@ export default class ImageLoad extends Component {
           Загрузка&nbsp;&nbsp; изображений
         </div>
         <div className='image-load'>
+          <form action={API_URL + 'images'} method='post' formEncType='multipart/form-data'>
+            Select image to upload:
+            <input type='file' accept='image/*' name='fileToUpload' multiple/>
+              <input type='submit' value='Upload Image' name='submit'/>
+          </form>
           <div className='image-load__picture'>
             {this.loadedPicture()}
           </div>

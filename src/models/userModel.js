@@ -27,10 +27,10 @@ export default class UserModel {
     return this.user;
   }
   setData(data) {
-    console.log(data);
     this.user.nickname = data.displayName;
     this.user.email = data.email;
     this.user.isAuthorised = true;
+    console.log(data.markup);
     if (data.markup !== undefined) {
       markup.setData(data.markup);
     }
@@ -68,9 +68,7 @@ export default class UserModel {
     return tt.post('login', data, headers)
       .then(function (data) {
         if (data !== false) {
-          if (data.status !== 200) {
-            return false;
-          }
+          console.log(data);
           self.setData(data);
           return true;
         }
@@ -89,9 +87,6 @@ export default class UserModel {
     return tt.post('user', data, headers)
       .then(function (data) {
         if (data !== false) {
-          if (data.status !== 200) {
-            return false;
-          }
           return true;
         }
         return false;

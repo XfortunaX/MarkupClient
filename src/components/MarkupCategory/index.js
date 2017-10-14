@@ -32,10 +32,10 @@ export default class MarkupCategory extends Component {
       classes: markup.classes
     });
     const self = this;
+    self.state.markup.setData(markup);
     this.state.markup.sendData(json)
       .then(function (data) {
         if (data === true) {
-          self.state.markup.setData(markup);
           self.context.router.push('/');
         }
       })

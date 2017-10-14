@@ -19,11 +19,10 @@ export default class Transport {
       headers: headers
     })
       .then(function (response) {
-        let data = {
-          status: response.status,
-          data: response.json()
-        };
-        return data;
+        if (response.status !== 200) {
+          return false;
+        }
+        return response.json();
       })
       .catch(function (error) {
         console.log('Request failed', error);
