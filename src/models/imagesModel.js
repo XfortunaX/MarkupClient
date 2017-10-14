@@ -28,8 +28,10 @@ export default class ImagesModel {
       'Content-type': 'application/json'
     };
     let data = this.images.data;
-    console.log(data);
-    return tt.post('upload', data, headers)
+    let json = JSON.stringify({
+      images: data
+    });
+    return tt.post('upload', json, headers)
       .then(function (data) {
         if (data !== false) {
           console.log(data);
