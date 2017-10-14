@@ -12,19 +12,24 @@ export default class ImagesModel {
       return ImagesModel.instance;
     }
     this.images = {
-      data: ''
+      data: []
     };
     ImagesModel.instance = this;
   }
-  setData(data) {
-    this.images.data = data;
+  drop() {
+    this.images.data = [];
+  }
+  add(image) {
+    this.images.data.push(image);
+    console.log(this.images.data);
   }
   sendData() {
     let headers = {
-      'Content-type': 'multipart/form-data'
+      'Content-type': 'application/json'
     };
     let data = this.images.data;
-    return tt.post('user', data, headers)
+    console.log(data);
+    return tt.post('upload', data, headers)
       .then(function (data) {
         if (data !== false) {
           console.log(data);

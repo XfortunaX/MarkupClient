@@ -81,14 +81,25 @@ export default class ImageLoad extends Component {
       loadPicture
     )
   }
-  handleChange() {
+  handleChange(e) {
+    let files = e.target.files;
+    this.state.images.drop();
 
+    let self = this;
+    for (let i = 0; i < files.length; i++) { //for multiple files
+      (function(file) {
+        let reader = new FileReader();
+        reader.onload = function() {
+          self.state.images.add(reader.result);
+        };
+        reader.readAsDataURL(file);
+      })(files[i]);
+    }
   }
   handleSubmit(e) {
     e.preventDefault();
-    
-    // const self = this;
-    this.images.sendData()
+
+    this.state.images.sendData()
       .then(function (data) {
         console.log(data);
         // if (data === true) {
@@ -101,6 +112,21 @@ export default class ImageLoad extends Component {
         // self.state.validationError = true;
         // self.forceUpdate();
       })
+
+    // const self = this;
+    // this.images.sendData()
+    //   .then(function (data) {
+    //     console.log(data);
+    //     // if (data === true) {
+    //     //
+    //     // }
+    //     // self.state.validationError = true;
+    //     // self.forceUpdate();
+    //   })
+    //   .catch(function () {
+    //     // self.state.validationError = true;
+    //     // self.forceUpdate();
+    //   })
   }
   render() {
     return (
