@@ -15,6 +15,7 @@ export default class Transport {
   post(request, data, headers) {
     console.log(data);
     return fetch(API_URL + request, {
+      // credentials: 'include',
       method: 'POST',
       body: data,
       headers: headers
@@ -32,6 +33,7 @@ export default class Transport {
   }
   get(request, headers) {
     return fetch(API_URL + request, {
+      // credentials: 'include',
       method: 'GET',
       headers: headers
     })

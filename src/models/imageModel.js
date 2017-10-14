@@ -57,6 +57,7 @@ export default class ImageModel {
     let headers = {
       'Content-type': 'application/json'
     };
+    console.log(data);
     return tt.post('markup', data, headers)
       .then(function (data) {
         if (data !== false) {

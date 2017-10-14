@@ -121,7 +121,7 @@ export default class Markup extends Component {
   handleClickSave(e) {
     e.preventDefault();
     let json = JSON.stringify({
-      image: this.state.image.getData().src,
+      image: this.state.image.getData().srcImage,
       markup: this.state.image.getData().markup
     });
     this.state.image.sendData(json)

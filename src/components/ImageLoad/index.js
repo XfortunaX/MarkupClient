@@ -120,37 +120,62 @@ export default class ImageLoad extends Component {
         </div>
         <div className='image-load'>
           <form id='form-upload' method='post' encType='multipart/form-data' onSubmit={this.handleSubmit}>
-            Select image to upload:
-            <input type='file'
-                   accept='image/*'
-                   name='fileToUpload'
-                   ref='fileUpload'
-                   onChange={this.handleChange}
-                   multiple/>
-              <input type='submit' value='Upload Image' name='submit'/>
+            <div className='form-upload__title'>
+              Выберите изображения для загрузки:
+            </div>
+            <div className='btns-action'>
+              <div className='btn-left'>
+                <button className='link load-image' onClick={this.handleClick}>
+                  Загрузить
+                </button>
+                <input className='uploadImage'
+                       ref='fileUpload'
+                       type='file'
+                       accept='image/*'
+                       name='fileToUpload'
+                       style={{display: 'none'}}
+                       onChange={this.handleChange}
+                       multiple>
+                </input>
+              </div>
+              <div className='btn-right'>
+                <input className='link' type='submit' value='Отправить' name='submit'/>
+              </div>
+            </div>
+
+            {/*<input className='link'*/}
+                   {/*type='file'*/}
+                   {/*accept='image/*'*/}
+                   {/*name='fileToUpload'*/}
+                   {/*ref='fileUpload'*/}
+                   {/*onChange={this.handleChange}*/}
+                   {/*multiple/>*/}
+              {/*<input className='link' type='submit' value='Upload Image' name='submit'/>*/}
           </form>
-          <div className='image-load__picture'>
-            {this.loadedPicture()}
-          </div>
-          <div className='btns-action'>
-            <div className='btn-left'>
-              <button className='link load-image' onClick={this.handleClick}>
-                Загрузить
-              </button>
-              <input className='uploadImage'
-                 type='file'
-                 accept='image/*'
-                 name='img'
-                 style={{display: 'none'}}
-                 onChange={this.handleLoad}>
-              </input>
-            </div>
-            <div className='btn-right'>
-              <button className='link send-image' onClick={this.handleSend}>
-                Отправить
-              </button>
-            </div>
-          </div>
+
+          {/*<div className='image-load__picture'>*/}
+            {/*{this.loadedPicture()}*/}
+          {/*</div>*/}
+
+          {/*<div className='btns-action'>*/}
+            {/*<div className='btn-left'>*/}
+              {/*<button className='link load-image' onClick={this.handleClick}>*/}
+                {/*Загрузить*/}
+              {/*</button>*/}
+              {/*<input className='uploadImage'*/}
+                 {/*type='file'*/}
+                 {/*accept='image/*'*/}
+                 {/*name='img'*/}
+                 {/*style={{display: 'none'}}*/}
+                 {/*onChange={this.handleLoad}>*/}
+              {/*</input>*/}
+            {/*</div>*/}
+            {/*<div className='btn-right'>*/}
+              {/*<button className='link send-image' onClick={this.handleSend}>*/}
+                {/*Отправить*/}
+              {/*</button>*/}
+            {/*</div>*/}
+          {/*</div>*/}
         </div>
       </div>
     </div>
