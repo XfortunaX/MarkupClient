@@ -19,7 +19,11 @@ export default class Transport {
       headers: headers
     })
       .then(function (response) {
-        return response.json();
+        let data = {
+          status: response.status,
+          data: response.json()
+        };
+        return data;
       })
       .catch(function (error) {
         console.log('Request failed', error);

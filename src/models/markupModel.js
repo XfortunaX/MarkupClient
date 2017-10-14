@@ -47,10 +47,9 @@ export default class MarkupModel {
     let headers = {
       'Content-type': 'application/json'
     };
-    return tt.post('user', this.markup, headers)
+    return tt.post('category', this.markup, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data);
           return true;
         }
         return false;
