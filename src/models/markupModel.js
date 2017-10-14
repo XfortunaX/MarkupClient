@@ -27,6 +27,11 @@ export default class MarkupModel {
   getData() {
     return this.markup;
   }
+  drop() {
+    this.markup.category = '';
+    this.markup.classes = [];
+    this.markup.activeClass = 0;
+  }
   setData(data) {
     console.log(data);
     this.markup.category = data.category;
@@ -43,11 +48,11 @@ export default class MarkupModel {
     }
     console.log(this.markup.activeClass);
   }
-  sendData() {
+  sendData(data) {
     let headers = {
       'Content-type': 'application/json'
     };
-    return tt.post('category', this.markup, headers)
+    return tt.post('category', data, headers)
       .then(function (data) {
         if (data !== false) {
           return true;

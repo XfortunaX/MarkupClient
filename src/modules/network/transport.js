@@ -13,6 +13,7 @@ export default class Transport {
     Transport.instance = this;
   }
   post(request, data, headers) {
+    console.log(data);
     return fetch(API_URL + request, {
       method: 'POST',
       body: data,

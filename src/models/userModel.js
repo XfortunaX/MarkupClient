@@ -59,6 +59,7 @@ export default class UserModel {
       nickname: '',
       email: ''
     }
+    markup.drop();
   }
   login(data) {
     let headers = {
