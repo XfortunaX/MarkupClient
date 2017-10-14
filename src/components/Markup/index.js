@@ -99,11 +99,40 @@ export default class Markup extends Component {
   }
   handleClick(e) {
     e.preventDefault();
-    document.getElementsByClassName('uploadImage')[0].click();
+    // document.getElementsByClassName('uploadImage')[0].click();
+
+    let self = this;
+    this.state.image.getImage()
+      .then(function (data) {
+        if (data === true) {
+          let myCanvas = document.getElementById('my_canvas_id');
+          let ctx = myCanvas.getContext('2d');
+          let img = new Image;
+          img.onload = function(){
+            ctx.drawImage(img,0,0); // Or at whatever offset you like
+          };
+          img.src = self.image.getData().src;
+        }
+      })
+      .catch(function () {
+
+      })
   }
-  handleClickSave() {
-    let markup = this.state.image.getData().markup;
-    console.log(markup);
+  handleClickSave(e) {
+    e.preventDefault();
+    let json = JSON.stringify({
+      image: this.state.image.getData().src,
+      markup: this.state.image.getData().markup
+    });
+    this.state.image.sendData(json)
+      .then(function (data) {
+        if (data === true) {
+          console.log('success');
+        }
+      })
+      .catch(function () {
+
+      })
   }
   handleLoad(e) {
     e.preventDefault();
@@ -165,7 +194,7 @@ export default class Markup extends Component {
           </button>
         </div>
         <div className='btn-right'>
-          <button className='link send-image' onClick={this.handleClick}>
+          <button className='link send-image' onClick={this.handleClickSave}>
             Сохранить
           </button>
         </div>
@@ -173,24 +202,24 @@ export default class Markup extends Component {
     )
   }
   render() {
-      return (
-        <div className='markup-page'>
-          <div className='back'>
-            <Link className='link' to='/'>Назад</Link>
-          </div>
-          <div className='main'>
-            <div className='name'>
-              Разметка класса: {this.state.markup.getData().classes[this.state.markup.getData().activeClass]}
-            </div>
-            <div className='image'>
-              <canvas className='canvas-markup'
-                      ref='canvasMarkup'>
-              </canvas>
-            </div>
-            {this.userActions()}
-          </div>
+    return (
+      <div className='markup-page'>
+        <div className='back'>
+          <Link className='link' to='/'>Назад</Link>
         </div>
-      )
+        <div className='main'>
+          <div className='name'>
+            Разметка класса: {this.state.markup.getData().classes[this.state.markup.getData().activeClass]}
+          </div>
+          <div className='image'>
+            <canvas className='canvas-markup'
+                    ref='canvasMarkup'>
+            </canvas>
+          </div>
+          {this.userActions()}
+        </div>
+      </div>
+    )
   }
 }
 

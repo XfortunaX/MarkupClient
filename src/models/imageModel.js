@@ -12,7 +12,7 @@ export default class ImageModel {
       return ImageModel.instance;
     }
     this.image = {
-      srcImage: new Image(),
+      srcImage: '',
       k: 1,
       markup: [],
       markup_category: '',
@@ -53,12 +53,11 @@ export default class ImageModel {
     });
     console.log(this.image.markup);
   }
-  sendData() {
+  sendData(data) {
     let headers = {
       'Content-type': 'application/json'
     };
-    let data = this.image.markup;
-    return tt.post('user', data, headers)
+    return tt.post('markup', data, headers)
       .then(function (data) {
         if (data !== false) {
           console.log(data);

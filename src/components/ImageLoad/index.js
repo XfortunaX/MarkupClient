@@ -103,41 +103,10 @@ export default class ImageLoad extends Component {
 
     let form = document.getElementById('form-upload');
     let form_data = new FormData(form);
-    console.log(this.state.markup.getData());
     form_data.append('category', this.state.markup.getData().category);
-    console.log(form_data);
     let req = new XMLHttpRequest();
-    req.open('POST', 'http://localhost:8000/api/upload');
+    req.open('POST',  API_URL + '/upload');
     req.send(form_data);
-
-    // this.state.images.sendData()
-    //   .then(function (data) {
-    //     console.log(data);
-    //     // if (data === true) {
-    //     //
-    //     // }
-    //     // self.state.validationError = true;
-    //     // self.forceUpdate();
-    //   })
-    //   .catch(function () {
-    //     // self.state.validationError = true;
-    //     // self.forceUpdate();
-    //   })
-
-    // const self = this;
-    // this.images.sendData()
-    //   .then(function (data) {
-    //     console.log(data);
-    //     // if (data === true) {
-    //     //
-    //     // }
-    //     // self.state.validationError = true;
-    //     // self.forceUpdate();
-    //   })
-    //   .catch(function () {
-    //     // self.state.validationError = true;
-    //     // self.forceUpdate();
-    //   })
   }
   render() {
     return (
@@ -150,7 +119,7 @@ export default class ImageLoad extends Component {
           Загрузка&nbsp;&nbsp; изображений
         </div>
         <div className='image-load'>
-          <form id='form-upload' action={API_URL + 'upload'} method='post' formEncType='multipart/form-data' onSubmit={this.handleSubmit}>
+          <form id='form-upload' method='post' encType='multipart/form-data' onSubmit={this.handleSubmit}>
             Select image to upload:
             <input type='file'
                    accept='image/*'
