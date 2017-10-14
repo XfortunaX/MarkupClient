@@ -5,17 +5,22 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import './styles.scss'
 import { API_URL } from '../../constants/index';
+import ImagesModel from '../../models/imagesModel';
 
 export default class ImageLoad extends Component {
   constructor() {
     super();
     this.state = {
       numPicture: 0,
-      k: 1
+      k: 1,
+      value: '',
+      images: new ImagesModel()
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.handleSend = this.handleSend.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
 
@@ -76,6 +81,27 @@ export default class ImageLoad extends Component {
       loadPicture
     )
   }
+  handleChange() {
+
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    
+    // const self = this;
+    this.images.sendData()
+      .then(function (data) {
+        console.log(data);
+        // if (data === true) {
+        //
+        // }
+        // self.state.validationError = true;
+        // self.forceUpdate();
+      })
+      .catch(function () {
+        // self.state.validationError = true;
+        // self.forceUpdate();
+      })
+  }
   render() {
     return (
     <div className='home-page'>
@@ -87,9 +113,14 @@ export default class ImageLoad extends Component {
           Загрузка&nbsp;&nbsp; изображений
         </div>
         <div className='image-load'>
-          <form action={API_URL + 'images'} method='post' formEncType='multipart/form-data'>
+          <form id='form-upload' action={API_URL + 'upload'} method='post' formEncType='multipart/form-data' onSubmit={this.handleSubmit}>
             Select image to upload:
-            <input type='file' accept='image/*' name='fileToUpload' multiple/>
+            <input type='file'
+                   accept='image/*'
+                   name='fileToUpload'
+                   ref='fileUpload'
+                   onChange={this.handleChange}
+                   multiple/>
               <input type='submit' value='Upload Image' name='submit'/>
           </form>
           <div className='image-load__picture'>
