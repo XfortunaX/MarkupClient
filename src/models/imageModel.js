@@ -12,14 +12,25 @@ export default class ImageModel {
       return ImageModel.instance;
     }
     this.image = {
-      srcImage: '',
+      url: '',
       id: '',
+      srcImage: '',
       k: 1,
       markup: [],
       markup_category: '',
       markup_colour: '#000000'
     };
     ImageModel.instance = this;
+  }
+
+  getMarkup(markup_class) {
+    console.log(markup_class);
+    console.log(this.image.markup);
+    for (let i = 0; i < this.image.markup.length; i += 1) {
+      if (this.image.markup[i].markup_class === markup_class) {
+        return this.image.markup[i];
+      }
+    }
   }
   getData() {
     return this.image;
@@ -81,8 +92,9 @@ export default class ImageModel {
       .then(function (data) {
         if (data !== false) {
           console.log(data);
-          self.image.src = data.url;
+          self.image.url = data.url;
           self.image.id = data.id;
+          console.log(self.image);
           return true;
         }
         return false;

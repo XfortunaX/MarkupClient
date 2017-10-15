@@ -74,10 +74,10 @@ export default class Markup extends Component {
 
       self.state.image.setMarkup({
         area: {
-          x1: self.state.area.x1 * self.state.k,
-          y1: self.state.area.y1 * self.state.k,
-          x2: self.state.area.x2 * self.state.k,
-          y2: self.state.area.y2 * self.state.k
+          x1: Math.round(self.state.area.x1 * self.state.k),
+          y1: Math.round(self.state.area.y1 * self.state.k),
+          x2: Math.round(self.state.area.x2 * self.state.k),
+          y2: Math.round(self.state.area.y2 * self.state.k)
         },
         markup_class: self.state.markup.getData().classes[self.state.markup.getData().activeClass]
       });
@@ -88,6 +88,41 @@ export default class Markup extends Component {
     e.preventDefault();
     this.state.markup.changeActive('left');
 
+    let markup = this.state.image.getMarkup(this.state.markup.getData().classes[this.state.markup.getData().activeClass]);
+
+    let canvas = document.getElementsByClassName('canvas-markup')[0];
+    let context = canvas.getContext('2d');
+    context.strokeStyle = '#000000';
+    context.lineWidth = 3;
+    context.clearRect(
+      0,
+      0,
+      this.state.image.getData().srcImage.naturalWidth * this.state.k,
+      this.state.image.getData().srcImage.naturalHeight * this.state.k
+    );
+    context.restore();
+    context.drawImage(
+      this.state.image.getData().srcImage,
+      0,
+      0,
+      this.state.image.getData().srcImage.naturalWidth * this.state.k,
+      this.state.image.getData().srcImage.naturalHeight * this.state.k
+    );
+
+    if (markup !== undefined) {
+      this.state.area.x1 = markup.area.x1 / this.state.k;
+      this.state.area.y1 = markup.area.y1 / this.state.k;
+      this.state.area.x2 = markup.area.x2 / this.state.k;
+      this.state.area.y2 = markup.area.y2 / this.state.k;
+
+      context.strokeRect(
+        this.state.area.x1,
+        this.state.area.y1,
+        this.state.area.x2 - this.state.area.x1,
+        this.state.area.y2 - this.state.area.y1
+      );
+    }
+
     this.forceUpdate();
   }
 
@@ -95,6 +130,40 @@ export default class Markup extends Component {
     e.preventDefault();
     this.state.markup.changeActive('right');
 
+    let markup = this.state.image.getMarkup(this.state.markup.getData().classes[this.state.markup.getData().activeClass]);
+
+    let canvas = document.getElementsByClassName('canvas-markup')[0];
+    let context = canvas.getContext('2d');
+    context.strokeStyle = '#000000';
+    context.lineWidth = 3;
+    context.clearRect(
+      0,
+      0,
+      this.state.image.getData().srcImage.naturalWidth * this.state.k,
+      this.state.image.getData().srcImage.naturalHeight * this.state.k
+    );
+    context.restore();
+    context.drawImage(
+      this.state.image.getData().srcImage,
+      0,
+      0,
+      this.state.image.getData().srcImage.naturalWidth * this.state.k,
+      this.state.image.getData().srcImage.naturalHeight * this.state.k
+    );
+
+    if (markup !== undefined) {
+      this.state.area.x1 = markup.area.x1 / this.state.k;
+      this.state.area.y1 = markup.area.y1 / this.state.k;
+      this.state.area.x2 = markup.area.x2 / this.state.k;
+      this.state.area.y2 = markup.area.y2 / this.state.k;
+
+      context.strokeRect(
+        this.state.area.x1,
+        this.state.area.y1,
+        this.state.area.x2 - this.state.area.x1,
+        this.state.area.y2 - this.state.area.y1
+      );
+    }
     this.forceUpdate();
   }
   handleClick(e) {
@@ -108,13 +177,24 @@ export default class Markup extends Component {
     this.state.image.getImage(json)
       .then(function (data) {
         if (data === true) {
-          let myCanvas = document.getElementById('my_canvas_id');
-          let ctx = myCanvas.getContext('2d');
-          let img = new Image;
-          img.onload = function(){
-            ctx.drawImage(img,0,0);
+          let canvas = document.getElementsByClassName('canvas-markup')[0];
+          let ctx = canvas.getContext('2d');
+          let img = new Image();
+          img.onload = function() {
+            self.state.k = 0.7 * window.innerHeight / img.naturalHeight;
+            if (img.naturalWidth * self.state.k > 0.8 * window.innerWidth) {
+              self.state.k = 0.8 * window.innerWidth / img.naturalWidth;
+            }
+            canvas.height = img.naturalHeight * self.state.k;
+            canvas.width = img.naturalWidth * self.state.k;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           };
-          img.src = self.image.getData().src;
+          img.src = self.state.image.getData().url;
+          self.state.image.setData({
+            srcImage: img,
+            k: self.state.k,
+            markup_category: self.state.markup.getData().category
+          });
         }
       })
       .catch(function () {
@@ -124,7 +204,7 @@ export default class Markup extends Component {
   handleClickSave(e) {
     e.preventDefault();
     let json = JSON.stringify({
-      image: this.state.image.getData().srcImage,
+      id: this.state.image.getData().id,
       markup: this.state.image.getData().markup
     });
     this.state.image.sendData(json)
