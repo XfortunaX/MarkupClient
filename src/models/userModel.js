@@ -3,8 +3,10 @@
  */
 
 import Transport from '../modules/network/transport';
+import markupModel from './markupModel'
 
 const tt = new Transport();
+let markup = new markupModel();
 
 export default class UserModel {
 
@@ -25,10 +27,13 @@ export default class UserModel {
     return this.user;
   }
   setData(data) {
-    console.log(data);
-    this.user.nickname = data.user;
+    this.user.nickname = data.displayName;
     this.user.email = data.email;
     this.user.isAuthorised = true;
+    console.log(data.markup);
+    if (data.markup !== undefined) {
+      markup.setData(data.markup);
+    }
   }
   // checkAuth() {
   //   let token = localStorage.getItem('token');
@@ -54,6 +59,7 @@ export default class UserModel {
       nickname: '',
       email: ''
     }
+    markup.drop();
   }
   login(data) {
     let headers = {
@@ -63,10 +69,8 @@ export default class UserModel {
     return tt.post('login', data, headers)
       .then(function (data) {
         if (data !== false) {
-          self.setData(data);
           console.log(data);
-          localStorage.setItem('nickname', data.nickname);
-          localStorage.setItem('email', data.email);
+          self.setData(data);
           return true;
         }
         return false;
@@ -77,13 +81,13 @@ export default class UserModel {
       });
   }
   signup(data) {
+    console.log(data);
     let headers = {
       'Content-type': 'application/json'
     };
     return tt.post('user', data, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data);
           return true;
         }
         return false;

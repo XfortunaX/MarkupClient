@@ -20,12 +20,28 @@ export default class MarkupCategory extends Component {
     let category = e.target.elements[0].value;
     let classes = [];
     for (let i = 1; i < e.target.elements.length - 1; i += 1) {
-      classes.push(e.target.elements[i].value);
+      if (e.target.elements[i].value !== '') {
+        classes.push(e.target.elements[i].value);
+      }
     }
     markup.category = category;
     markup.classes = classes;
-    this.state.markup.setData(markup);
-    this.context.router.push('/');
+    console.log(markup);
+    let json = JSON.stringify({
+      category: markup.category,
+      classes: markup.classes
+    });
+    const self = this;
+    self.state.markup.setData(markup);
+    this.state.markup.sendData(json)
+      .then(function (data) {
+        if (data === true) {
+          self.context.router.push('/');
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      })
   }
   render() {
     return (

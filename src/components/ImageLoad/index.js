@@ -1,20 +1,28 @@
 /**
  * Created by sergey on 07.08.17.
  */
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import './styles.scss'
+import { API_URL } from '../../constants/index'
+import ImagesModel from '../../models/imagesModel'
+import MarkupModel from '../../models/markupModel'
 
 export default class ImageLoad extends Component {
   constructor() {
     super();
     this.state = {
       numPicture: 0,
-      k: 1
+      k: 1,
+      value: '',
+      images: new ImagesModel(),
+      markup: new MarkupModel()
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.handleSend = this.handleSend.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
 
@@ -75,6 +83,35 @@ export default class ImageLoad extends Component {
       loadPicture
     )
   }
+  handleChange() {
+    // let files = e.target.files;
+    // this.state.images.drop();
+    //
+    // let self = this;
+    // for (let i = 0; i < files.length; i++) { //for multiple files
+    //   (function(file) {
+    //     let reader = new FileReader();
+    //     reader.onload = function() {
+    //       self.state.images.add(reader.result);
+    //     };
+    //     reader.readAsDataURL(file);
+    //   })(files[i]);
+    // }
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+
+    let self = this;
+    let form = document.getElementById('form-upload');
+    let form_data = new FormData(form);
+    form_data.append('category', this.state.markup.getData().category);
+    let req = new XMLHttpRequest();
+    req.open('POST',  API_URL + 'upload');
+    req.onload = function () {
+      self.context.router.push('/');
+    };
+    req.send(form_data);
+  }
   render() {
     return (
     <div className='home-page'>
@@ -86,31 +123,70 @@ export default class ImageLoad extends Component {
           Загрузка&nbsp;&nbsp; изображений
         </div>
         <div className='image-load'>
-          <div className='image-load__picture'>
-            {this.loadedPicture()}
-          </div>
-          <div className='btns-action'>
-            <div className='btn-left'>
-              <button className='link load-image' onClick={this.handleClick}>
-                Загрузить
-              </button>
-              <input className='uploadImage'
-                 type='file'
-                 accept='image/*'
-                 name='img'
-                 style={{display: 'none'}}
-                 onChange={this.handleLoad}>
-              </input>
+          <form id='form-upload' method='post' encType='multipart/form-data' onSubmit={this.handleSubmit}>
+            <div className='form-upload__title'>
+              Выберите изображения для загрузки:
             </div>
-            <div className='btn-right'>
-              <button className='link send-image' onClick={this.handleSend}>
-                Отправить
-              </button>
+            <div className='btns-action'>
+              <div className='btn-left'>
+                <button className='link load-image' onClick={this.handleClick}>
+                  Загрузить
+                </button>
+                <input className='uploadImage'
+                       ref='fileUpload'
+                       type='file'
+                       accept='image/*'
+                       name='fileToUpload'
+                       style={{display: 'none'}}
+                       onChange={this.handleChange}
+                       multiple>
+                </input>
+              </div>
+              <div className='btn-right'>
+                <input className='link' type='submit' value='Отправить' name='submit'/>
+              </div>
             </div>
-          </div>
+
+            {/*<input className='link'*/}
+                   {/*type='file'*/}
+                   {/*accept='image/*'*/}
+                   {/*name='fileToUpload'*/}
+                   {/*ref='fileUpload'*/}
+                   {/*onChange={this.handleChange}*/}
+                   {/*multiple/>*/}
+              {/*<input className='link' type='submit' value='Upload Image' name='submit'/>*/}
+          </form>
+
+          {/*<div className='image-load__picture'>*/}
+            {/*{this.loadedPicture()}*/}
+          {/*</div>*/}
+
+          {/*<div className='btns-action'>*/}
+            {/*<div className='btn-left'>*/}
+              {/*<button className='link load-image' onClick={this.handleClick}>*/}
+                {/*Загрузить*/}
+              {/*</button>*/}
+              {/*<input className='uploadImage'*/}
+                 {/*type='file'*/}
+                 {/*accept='image/*'*/}
+                 {/*name='img'*/}
+                 {/*style={{display: 'none'}}*/}
+                 {/*onChange={this.handleLoad}>*/}
+              {/*</input>*/}
+            {/*</div>*/}
+            {/*<div className='btn-right'>*/}
+              {/*<button className='link send-image' onClick={this.handleSend}>*/}
+                {/*Отправить*/}
+              {/*</button>*/}
+            {/*</div>*/}
+          {/*</div>*/}
         </div>
       </div>
     </div>
     )
   }
 }
+
+ImageLoad.contextTypes = {
+  router: PropTypes.object.isRequired
+};

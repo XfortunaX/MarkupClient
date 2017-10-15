@@ -11,21 +11,22 @@ export default class Signup extends Component {
     super();
     this.state = {
       checkAuth: false,
-      user: new UserModel()
+      user: new UserModel(),
+      validationError: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
-    let valid = false;
+    this.state.validationError = false;
     let userName = e.target.elements[0].value;
     let userEmail = e.target.elements[1].value;
     let userPassword = e.target.elements[2].value;
     let userRepeatPassword = e.target.elements[3].value;
-    if (userPassword === userRepeatPassword && userPassword !== '') {
-      valid = true;
+    if (userPassword === userRepeatPassword && userPassword !== '' && userEmail !== '') {
+      this.state.validationError = true;
     }
-    if (valid === true) {
+    if (this.state.validationError === true) {
       let json = JSON.stringify({
         displayName: userName,
         email: userEmail,
@@ -34,17 +35,33 @@ export default class Signup extends Component {
       const self = this;
       this.state.user.signup(json)
         .then(function (data) {
-          console.log(data);
           if (data === true) {
             self.context.router.push('/');
           }
+          self.state.validationError = true;
+          self.forceUpdate();
         })
-        .catch(function (err) {
-          console.log(err);
+        .catch(function () {
+          self.state.validationError = true;
+          self.forceUpdate();
         })
     } else {
-      console.log('Validation Error');
+      this.state.validationError = true;
+      this.forceUpdate();
     }
+  }
+  checkValid() {
+    if (this.state.validationError === true) {
+      return (
+        <div className='valid-error'>
+          Ошибка валидации
+        </div>
+      )
+    }
+    return (
+      <div className='valid-error'>
+      </div>
+    )
   }
   render() {
     return (
@@ -57,13 +74,14 @@ export default class Signup extends Component {
             Регистрация
           </div>
           <div className='signup-form__fields'>
+            {this.checkValid()}
             <div className='field'>
               <label>Name</label><br/>
-              <input type='text' name='userName' />
+              <input type='text' name='userName' required/>
             </div>
             <div className='field'>
               <label>Email</label><br/>
-              <input type='email' name='userEmail' />
+              <input type='email' name='userEmail' required/>
             </div>
             <div className='field'>
               <label>Password</label><br/>

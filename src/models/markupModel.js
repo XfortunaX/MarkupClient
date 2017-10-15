@@ -27,6 +27,11 @@ export default class MarkupModel {
   getData() {
     return this.markup;
   }
+  drop() {
+    this.markup.category = '';
+    this.markup.classes = [];
+    this.markup.activeClass = 0;
+  }
   setData(data) {
     console.log(data);
     this.markup.category = data.category;
@@ -34,6 +39,9 @@ export default class MarkupModel {
       this.markup.classes[i] = data.classes[i];
     }
     console.log(this.markup);
+  }
+  dropActive() {
+    this.markup.activeClass = 0;
   }
   changeActive(direction) {
     if (direction === 'left' && this.markup.activeClass - 1 > -1 ) {
@@ -43,14 +51,13 @@ export default class MarkupModel {
     }
     console.log(this.markup.activeClass);
   }
-  sendData() {
+  sendData(data) {
     let headers = {
       'Content-type': 'application/json'
     };
-    return tt.post('user', this.markup, headers)
+    return tt.post('category', data, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data);
           return true;
         }
         return false;

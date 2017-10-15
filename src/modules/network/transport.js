@@ -13,12 +13,17 @@ export default class Transport {
     Transport.instance = this;
   }
   post(request, data, headers) {
+    console.log(data);
     return fetch(API_URL + request, {
+      credentials: 'include',
       method: 'POST',
       body: data,
       headers: headers
     })
       .then(function (response) {
+        if (response.status !== 200) {
+          return false;
+        }
         return response.json();
       })
       .catch(function (error) {
@@ -28,6 +33,7 @@ export default class Transport {
   }
   get(request, headers) {
     return fetch(API_URL + request, {
+      credentials: 'include',
       method: 'GET',
       headers: headers
     })
