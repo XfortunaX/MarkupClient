@@ -13,6 +13,7 @@ export default class ImageModel {
     }
     this.image = {
       srcImage: '',
+      id: '',
       k: 1,
       markup: [],
       markup_category: '',
@@ -79,8 +80,9 @@ export default class ImageModel {
     return tt.post('image', data, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data)
-          self.image.src = data.src;
+          console.log(data);
+          self.image.src = data.url;
+          self.image.id = data.id;
           return true;
         }
         return false;
