@@ -6,9 +6,9 @@ import { Link } from 'react-router'
 import UserModel from '../../models/userModel'
 import Markup from '../../models/markupModel'
 import './styles.scss'
-import { API_URL } from '../../constants/index'
+// import { API_URL } from '../../constants/index'
 
-const fileDownload = require('js-file-download');
+// const fileDownload = require('js-file-download');
 
 export default class Home extends Component {
   constructor() {
@@ -31,11 +31,11 @@ export default class Home extends Component {
       category: this.state.markup.getData().category
     });
     let req = new XMLHttpRequest();
-    req.open('GET',  API_URL + 'upload');
-    req.onload = function () {
-      let data = JSON.parse(this.responseText);
-      fileDownload(data, 'filename.csv');
-    };
+    req.open('GET', 'http://localhost:8000/category/%D0%9A%D1%80%D0%B0%D0%B1%D1%8B/result)');
+    // req.onload = function () {
+    //   let data = JSON.parse(this.responseText);
+    //   fileDownload(data, 'filename.csv');
+    // };
     req.send(json);
   }
   Profile() {
