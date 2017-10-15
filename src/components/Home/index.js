@@ -31,7 +31,7 @@ export default class Home extends Component {
       category: this.state.markup.getData().category
     });
     let req = new XMLHttpRequest();
-    req.open('GET', 'http://localhost:8000/category/%D0%9A%D1%80%D0%B0%D0%B1%D1%8B/result)');
+    req.open('GET', 'http://localhost:8000/category/%D0%9A%D1%80%D0%B0%D0%B1%D1%8B/result');
     // req.onload = function () {
     //   let data = JSON.parse(this.responseText);
     //   fileDownload(data, 'filename.csv');
