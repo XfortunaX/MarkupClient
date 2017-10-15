@@ -8,7 +8,7 @@ import Markup from '../../models/markupModel'
 import './styles.scss'
 import { API_URL } from '../../constants/index'
 
-// const fileDownload = require('js-file-download');
+const fileDownload = require('js-file-download');
 
 export default class Home extends Component {
   constructor() {
@@ -30,13 +30,11 @@ export default class Home extends Component {
     let json = JSON.stringify({
       category: this.state.markup.getData().category
     });
-    console.log(json);
     let req = new XMLHttpRequest();
     req.open('POST', API_URL + 'result');
-    // req.onload = function () {
-    //   let data = JSON.parse(this.responseText);
-    //   fileDownload(data, 'filename.csv');
-    // };
+    req.onload = function () {
+      fileDownload(req.responseText, 'filename.csv');
+    };
     req.send(json);
   }
   Profile() {
