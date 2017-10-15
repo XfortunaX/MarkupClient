@@ -40,6 +40,9 @@ export default class MarkupModel {
     }
     console.log(this.markup);
   }
+  dropActive() {
+    this.markup.activeClass = 0;
+  }
   changeActive(direction) {
     if (direction === 'left' && this.markup.activeClass - 1 > -1 ) {
       this.markup.activeClass -= 1;

@@ -22,7 +22,9 @@ export default class ImageModel {
     };
     ImageModel.instance = this;
   }
-
+  dropMarkup() {
+    this.image.markup = [];
+  }
   getMarkup(markup_class) {
     console.log(markup_class);
     console.log(this.image.markup);

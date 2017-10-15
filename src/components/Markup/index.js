@@ -170,13 +170,15 @@ export default class Markup extends Component {
     e.preventDefault();
 
     let self = this;
-
     let json = JSON.stringify({
       category: this.state.markup.getData().category
     });
     this.state.image.getImage(json)
       .then(function (data) {
         if (data === true) {
+          self.state.area = { x1: 0, x2: 0, y1: 0, y2: 0 };
+          self.state.markup.dropActive();
+          self.state.image.dropMarkup();
           let canvas = document.getElementsByClassName('canvas-markup')[0];
           let ctx = canvas.getContext('2d');
           let img = new Image();
@@ -188,6 +190,7 @@ export default class Markup extends Component {
             canvas.height = img.naturalHeight * self.state.k;
             canvas.width = img.naturalWidth * self.state.k;
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            self.forceUpdate();
           };
           img.src = self.state.image.getData().url;
           self.state.image.setData({
@@ -207,6 +210,7 @@ export default class Markup extends Component {
       id: this.state.image.getData().id,
       markup: this.state.image.getData().markup
     });
+    // let self = this;
     this.state.image.sendData(json)
       .then(function (data) {
         if (data === true) {
