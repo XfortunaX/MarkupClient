@@ -99,17 +99,20 @@ export default class Markup extends Component {
   }
   handleClick(e) {
     e.preventDefault();
-    // document.getElementsByClassName('uploadImage')[0].click();
 
     let self = this;
-    this.state.image.getImage()
+
+    let json = JSON.stringify({
+      category: this.state.markup.getData().category
+    });
+    this.state.image.getImage(json)
       .then(function (data) {
         if (data === true) {
           let myCanvas = document.getElementById('my_canvas_id');
           let ctx = myCanvas.getContext('2d');
           let img = new Image;
           img.onload = function(){
-            ctx.drawImage(img,0,0); // Or at whatever offset you like
+            ctx.drawImage(img,0,0);
           };
           img.src = self.image.getData().src;
         }

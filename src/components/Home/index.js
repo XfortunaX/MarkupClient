@@ -33,7 +33,7 @@ export default class Home extends Component {
     let req = new XMLHttpRequest();
     req.open('POST', API_URL + 'result');
     req.onload = function () {
-      fileDownload(req.responseText, 'filename.csv');
+      fileDownload(req.responseText, 'result.csv');
     };
     req.send(json);
   }

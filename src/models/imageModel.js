@@ -71,34 +71,51 @@ export default class ImageModel {
         return false;
       });
   }
-  getImage() {
+  getImage(data) {
     const self = this;
-    return tt.get('image', {})
+    let headers = {
+      'Content-type': 'application/json'
+    };
+    return tt.post('image', data, headers)
       .then(function (data) {
-        console.log(data);
-        self.image.src = data.src;
-
-        // self.image = data;
-        //
-        // let canvas = document.getElementsByClassName('canvas-markup')[0];
-        // let context = canvas.getContext('2d');
-        // let im = new Image();
-        //
-        // im.onload = function () {
-        //   console.log(im.naturalHeight, im.naturalWidth);
-        //   console.log(screen.height, screen.width);
-        //   console.log(window.innerHeight, window.innerWidth);
-        //   canvas.height = im.naturalHeight;
-        //   canvas.width = im.naturalWidth;
-        //   context.drawImage(im, 0, 0, im.naturalWidth, im.naturalHeight);
-        // };
-        // im.src = data.imgData;
-
-        return true;
+        if (data !== false) {
+          console.log(data)
+          self.image.src = data.src;
+          return true;
+        }
+        return false;
       })
       .catch(function (error) {
         console.log('Request failed', error);
         return false;
       });
+
+    // return tt.get('image', {})
+    //   .then(function (data) {
+    //     console.log(data);
+    //     self.image.src = data.src;
+    //
+    //     // self.image = data;
+    //     //
+    //     // let canvas = document.getElementsByClassName('canvas-markup')[0];
+    //     // let context = canvas.getContext('2d');
+    //     // let im = new Image();
+    //     //
+    //     // im.onload = function () {
+    //     //   console.log(im.naturalHeight, im.naturalWidth);
+    //     //   console.log(screen.height, screen.width);
+    //     //   console.log(window.innerHeight, window.innerWidth);
+    //     //   canvas.height = im.naturalHeight;
+    //     //   canvas.width = im.naturalWidth;
+    //     //   context.drawImage(im, 0, 0, im.naturalWidth, im.naturalHeight);
+    //     // };
+    //     // im.src = data.imgData;
+    //
+    //     return true;
+    //   })
+    //   .catch(function (error) {
+    //     console.log('Request failed', error);
+    //     return false;
+    //   });
   }
 }
