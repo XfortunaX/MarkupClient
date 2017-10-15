@@ -1,7 +1,7 @@
 /**
  * Created by sergey on 07.08.17.
  */
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import './styles.scss'
 import { API_URL } from '../../constants/index'
@@ -101,11 +101,15 @@ export default class ImageLoad extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
+    let self = this;
     let form = document.getElementById('form-upload');
     let form_data = new FormData(form);
     form_data.append('category', this.state.markup.getData().category);
     let req = new XMLHttpRequest();
-    req.open('POST',  API_URL + '/upload');
+    req.open('POST',  API_URL + 'upload');
+    req.onload = function () {
+      self.context.router.push('/');
+    };
     req.send(form_data);
   }
   render() {
@@ -182,3 +186,7 @@ export default class ImageLoad extends Component {
     )
   }
 }
+
+ImageLoad.contextTypes = {
+  router: PropTypes.object.isRequired
+};
