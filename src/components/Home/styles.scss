@@ -48,7 +48,7 @@
   margin-bottom: 50px;
 }
 
-.toMarkup, .toImageLoad, .notLogin, .toMarkupCategory {
+.toMarkup, .toImageLoad, .notLogin, .toMarkupCategory, .toResult {
   text-align: center;
   font-size: 28px;
   margin-top: 15px;
@@ -89,7 +89,7 @@ body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background
   padding-top: 5px;
 }
 
-.toMarkup .link, .toImageLoad .link {
+.toMarkup .link, .toImageLoad .link, .toResult .link {
   width: 340px;
   height: 55px;
   font-size: 20px;

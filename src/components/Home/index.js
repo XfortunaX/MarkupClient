@@ -6,6 +6,9 @@ import { Link } from 'react-router'
 import UserModel from '../../models/userModel'
 import Markup from '../../models/markupModel'
 import './styles.scss'
+import { API_URL } from '../../constants/index'
+
+const fileDownload = require('js-file-download');
 
 export default class Home extends Component {
   constructor() {
@@ -16,11 +19,24 @@ export default class Home extends Component {
       markup: new Markup()
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleLoad = this.handleLoad.bind(this);
   }
   handleClick(e) {
     e.preventDefault();
     this.state.user.logout();
     this.forceUpdate();
+  }
+  handleLoad() {
+    let json = JSON.stringify({
+      category: this.state.markup.getData().category
+    });
+    let req = new XMLHttpRequest();
+    req.open('GET',  API_URL + 'upload');
+    req.onload = function () {
+      let data = JSON.parse(this.responseText);
+      fileDownload(data, 'filename.csv');
+    };
+    req.send(json);
   }
   Profile() {
     const isLogged = this.state.user.isAuthorised();
@@ -67,6 +83,11 @@ export default class Home extends Component {
           </div>
           <div className='toImageLoad'>
             <Link className='link' to='/image_load'>Загрузить изображения</Link>
+          </div>
+          <div className='toResult'>
+            <button className='link' onClick={this.handleLoad}>
+              Скачать результат
+            </button>
           </div>
         </div>
       );
