@@ -22,12 +22,16 @@ export default class ImageModel {
     };
     ImageModel.instance = this;
   }
+  drop() {
+    this.image.url = '';
+    this.image.id = '';
+    this.image.markup = [];
+    this.image.srcImage = '';
+  }
   dropMarkup() {
     this.image.markup = [];
   }
   getMarkup(markup_class) {
-    console.log(markup_class);
-    console.log(this.image.markup);
     for (let i = 0; i < this.image.markup.length; i += 1) {
       if (this.image.markup[i].markup_class === markup_class) {
         return this.image.markup[i];
@@ -38,13 +42,11 @@ export default class ImageModel {
     return this.image;
   }
   setData(data) {
-    console.log(data.srcImage);
     this.image.srcImage = data.srcImage;
     this.image.k = data.k;
     this.image.markup_category = data.markup_category;
   }
   setMarkup(markup) {
-    console.log(markup);
     for (let i = 0; i < this.image.markup.length; i += 1) {
       if (this.image.markup[i].markup_class === markup.markup_class) {
         this.image.markup[i].area = {
@@ -65,17 +67,14 @@ export default class ImageModel {
       },
       markup_class: markup.markup_class
     });
-    console.log(this.image.markup);
   }
   sendData(data) {
     let headers = {
       'Content-type': 'application/json'
     };
-    console.log(data);
     return tt.post('markup', data, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data);
           return true;
         }
         return false;
@@ -93,10 +92,8 @@ export default class ImageModel {
     return tt.post('image', data, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data);
           self.image.url = data.url;
           self.image.id = data.id;
-          console.log(self.image);
           return true;
         }
         return false;
@@ -105,33 +102,5 @@ export default class ImageModel {
         console.log('Request failed', error);
         return false;
       });
-
-    // return tt.get('image', {})
-    //   .then(function (data) {
-    //     console.log(data);
-    //     self.image.src = data.src;
-    //
-    //     // self.image = data;
-    //     //
-    //     // let canvas = document.getElementsByClassName('canvas-markup')[0];
-    //     // let context = canvas.getContext('2d');
-    //     // let im = new Image();
-    //     //
-    //     // im.onload = function () {
-    //     //   console.log(im.naturalHeight, im.naturalWidth);
-    //     //   console.log(screen.height, screen.width);
-    //     //   console.log(window.innerHeight, window.innerWidth);
-    //     //   canvas.height = im.naturalHeight;
-    //     //   canvas.width = im.naturalWidth;
-    //     //   context.drawImage(im, 0, 0, im.naturalWidth, im.naturalHeight);
-    //     // };
-    //     // im.src = data.imgData;
-    //
-    //     return true;
-    //   })
-    //   .catch(function (error) {
-    //     console.log('Request failed', error);
-    //     return false;
-    //   });
   }
 }

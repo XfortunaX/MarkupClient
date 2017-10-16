@@ -21,7 +21,6 @@ export default class ImagesModel {
   }
   add(image) {
     this.images.data.push(image);
-    console.log(this.images.data);
   }
   sendData() {
     let headers = {
@@ -34,7 +33,6 @@ export default class ImagesModel {
     return tt.post('upload', json, headers)
       .then(function (data) {
         if (data !== false) {
-          console.log(data);
           return true;
         }
         return false;
