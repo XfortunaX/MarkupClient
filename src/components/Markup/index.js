@@ -76,10 +76,10 @@ export default class Markup extends Component {
 
         self.state.image.setMarkup({
           area: {
-            x1: Math.round(self.state.area.x1 * self.state.k),
-            y1: Math.round(self.state.area.y1 * self.state.k),
-            x2: Math.round(self.state.area.x2 * self.state.k),
-            y2: Math.round(self.state.area.y2 * self.state.k)
+            x1: Math.round(self.state.area.x1 / self.state.k),
+            y1: Math.round(self.state.area.y1 / self.state.k),
+            x2: Math.round(self.state.area.x2 / self.state.k),
+            y2: Math.round(self.state.area.y2 / self.state.k)
           },
           markup_class: self.state.markup.getData().classes[self.state.markup.getData().activeClass]
         });
@@ -113,10 +113,10 @@ export default class Markup extends Component {
     );
 
     if (markup !== undefined) {
-      this.state.area.x1 = markup.area.x1 / this.state.k;
-      this.state.area.y1 = markup.area.y1 / this.state.k;
-      this.state.area.x2 = markup.area.x2 / this.state.k;
-      this.state.area.y2 = markup.area.y2 / this.state.k;
+      this.state.area.x1 = markup.area.x1 * this.state.k;
+      this.state.area.y1 = markup.area.y1 * this.state.k;
+      this.state.area.x2 = markup.area.x2 * this.state.k;
+      this.state.area.y2 = markup.area.y2 * this.state.k;
 
       context.strokeRect(
         this.state.area.x1,
@@ -155,10 +155,10 @@ export default class Markup extends Component {
     );
 
     if (markup !== undefined) {
-      this.state.area.x1 = markup.area.x1 / this.state.k;
-      this.state.area.y1 = markup.area.y1 / this.state.k;
-      this.state.area.x2 = markup.area.x2 / this.state.k;
-      this.state.area.y2 = markup.area.y2 / this.state.k;
+      this.state.area.x1 = markup.area.x1 * this.state.k;
+      this.state.area.y1 = markup.area.y1 * this.state.k;
+      this.state.area.x2 = markup.area.x2 * this.state.k;
+      this.state.area.y2 = markup.area.y2 * this.state.k;
 
       context.strokeRect(
         this.state.area.x1,
@@ -317,7 +317,11 @@ export default class Markup extends Component {
             Класс разметки:
           </div>
           <div className='markup-title-select__class'>
-            &nbsp;&nbsp;{this.state.markup.getData().classes[this.state.markup.getData().activeClass]}
+            &nbsp;&nbsp; {this.state.markup.getData().classes[this.state.markup.getData().activeClass]}
+          </div>
+          <div className='markup-title-select__count'>
+            &nbsp;&nbsp;&nbsp;{this.state.markup.getData().activeClass + 1}
+            /{this.state.markup.getData().classes.length}
           </div>
         </div>
       )
@@ -332,7 +336,7 @@ export default class Markup extends Component {
     return (
       <div className='markup-page'>
         <div className='back'>
-          <Link className='link' to='/'>Назад</Link>
+          <Link className='link' to='/'>Вернуться</Link>
         </div>
         <div className='main'>
           {this.markupTitle()}

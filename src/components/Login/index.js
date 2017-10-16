@@ -56,7 +56,7 @@ export default class Login extends Component {
     return (
       <div className='login-page'>
         <div className='back'>
-          <Link className='link' to='/'>Назад</Link>
+          <Link className='link' to='/'>Вернуться</Link>
         </div>
         <form className='login-form' onSubmit={this.handleSubmit}>
           <div className='login-form__title'>

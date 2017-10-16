@@ -46,7 +46,7 @@ export default class MarkupCategory extends Component {
     return (
       <div className='markup-category'>
         <div className='back'>
-          <Link className='link' to='/'>Назад</Link>
+          <Link className='link' to='/'>Вернуться</Link>
         </div>
         <div className='main'>
           <div className='name'>

@@ -45,7 +45,7 @@ export default class Profile extends Component {
     return (
       <div className='profile-page'>
         <div className='back'>
-          <Link className='link' to='/'>Назад</Link>
+          <Link className='link' to='/'>Вернуться</Link>
         </div>
         <div className='main'>
           <div className='profile-title'>

@@ -67,7 +67,7 @@ export default class Signup extends Component {
     return (
       <div className='signup-page'>
         <div className='back'>
-          <Link className='link' to='/'>Назад</Link>
+          <Link className='link' to='/'>Вернуться</Link>
         </div>
         <form className='signup-form' onSubmit={this.handleSubmit}>
           <div className='signup-form__title'>

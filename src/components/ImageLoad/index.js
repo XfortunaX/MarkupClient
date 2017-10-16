@@ -81,7 +81,7 @@ export default class ImageLoad extends Component {
     return (
     <div className='home-page'>
       <div className='back'>
-        <Link className='link' to='/'>Назад</Link>
+        <Link className='link' to='/'>Вернуться</Link>
       </div>
       <div className='main'>
         <div className='name'>

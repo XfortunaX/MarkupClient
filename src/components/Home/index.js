@@ -77,6 +77,9 @@ export default class Home extends Component {
     if (isSelect) {
       return (
         <div className='selectCategory'>
+          <div className='select-markup-category'>
+            Выбранная категория разметки: &nbsp;&nbsp;{this.state.markup.getData().category}
+          </div>
           <div className='toMarkup'>
             <Link className='link' to='/markup'>Разметка</Link>
           </div>
