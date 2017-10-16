@@ -26,7 +26,6 @@ export default class MarkupCategory extends Component {
     }
     markup.category = category;
     markup.classes = classes;
-    console.log(markup);
     let json = JSON.stringify({
       category: markup.category,
       classes: markup.classes

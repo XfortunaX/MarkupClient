@@ -33,12 +33,10 @@ export default class MarkupModel {
     this.markup.activeClass = 0;
   }
   setData(data) {
-    console.log(data);
     this.markup.category = data.category;
     for (let i = 0; i < data.classes.length; i += 1) {
       this.markup.classes[i] = data.classes[i];
     }
-    console.log(this.markup);
   }
   dropActive() {
     this.markup.activeClass = 0;
@@ -49,7 +47,6 @@ export default class MarkupModel {
     } else if (direction === 'right' && this.markup.activeClass + 1 < this.markup.classes.length) {
       this.markup.activeClass += 1;
     }
-    console.log(this.markup.activeClass);
   }
   sendData(data) {
     let headers = {

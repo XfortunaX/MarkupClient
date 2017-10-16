@@ -45,6 +45,23 @@
   margin-left: 20%;
 }
 
+.no-loaded-image {
+  font-size: 24px;
+  font-weight: 600;
+  color: crimson;
+  font-style: italic;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.loaded-image__title {
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
 body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background39.png);}
 .link {
   text-decoration: none;
